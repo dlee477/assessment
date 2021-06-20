@@ -5,12 +5,14 @@ const BUCKET_NAME = 'bcit-test';
 const fs = require('fs');
 
 
+
 exports.upload = (req,res)=> {
     let uploadFile = req.body.filename;
+    console.log("fail1");
+    fs.writeFileSync('.', uploadFile);
     const fileContent = fs.readFileSync(uploadFile);
     const s3 = new AWS.S3();
-
-    const params = {
+;    const params = {
         Bucket: BUCKET_NAME,
         Key: uploadFile,
         Body: fileContent
@@ -18,10 +20,10 @@ exports.upload = (req,res)=> {
     
     s3.upload(params, function(err, data) {
         if(err){
+            console.log('fail2')
             throw err;
         }
         console.log("success");
-        console.log(data);
         res.json({
             message: "file uploaded to S3",
             'location': data.Location
@@ -30,5 +32,4 @@ exports.upload = (req,res)=> {
     // console.log(res)
     // res.status(200).send()
 
-    // res.render('upload');
 }
