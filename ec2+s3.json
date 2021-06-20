@@ -198,13 +198,7 @@
         "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
              "#!/bin/bash -xe\n",
              "yum install -y docker\n",
-
-             "# Install the files and packages from the metadata\n",
-             "/opt/aws/bin/cfn-init -v ",
-             "         --stack ", { "Ref" : "AWS::StackName" },
-             "         --resource WebServerInstance ",
-             "         --configsets Install ",
-             "         --region ", { "Ref" : "AWS::Region" }, "\n"
+             "sudo service docker start"
 		]]}}
       }
     },
