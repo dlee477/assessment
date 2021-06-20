@@ -11,25 +11,24 @@ const fs = require('fs');
 // app.use(bodyParser.urlencoded({extended:true}));
 // app.use(bodyParser.json())
 app.engine(
-    'hbs',
-    expressHbs({
-      layoutsDir: 'views/layout/',
-      defaultLayout: 'main-layout',
-      extname: 'hbs'
-    })
-  );
-  app.set('view engine', 'hbs');
-  app.set('views', 'views')
+  'hbs',
+  expressHbs({
+    layoutsDir: 'views/layout/',
+    defaultLayout: 'main-layout',
+    extname: 'hbs'
+  })
+);
+app.set('view engine', 'hbs');
+app.set('views', 'views')
 // app.use(express.static('public'));
 // app.use(route);
 
 app.get('/', (req,res)=> {
-    res.render('upload')
+  res.render('upload')
 })
 
 
 app.post('/upload', upload.single('filename'), (req,res) => {
-  console.log(req.file.originalname);
   fileContent = fs.readFileSync("./uploads/" +  req.file.filename)
   const s3 = new AWS.S3();
   const params = {
@@ -40,10 +39,8 @@ app.post('/upload', upload.single('filename'), (req,res) => {
 
   s3.upload(params,function(err,data){
     if(err){
-      console.log('fail2')
       throw err;
     }
-    console.log("success");
     res.json({
         message: "file uploaded to S3",
         'location': data.Location
@@ -51,6 +48,6 @@ app.post('/upload', upload.single('filename'), (req,res) => {
   })
 });
 
-app.listen(3000, function () {
+app.listen(80, function () {
   console.log('Example app listening on port 3000!');
 });
