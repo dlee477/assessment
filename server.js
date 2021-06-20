@@ -1,4 +1,4 @@
-const route = require('./index');
+
 const expressHbs = require('express-handlebars');
 var express = require('express');
 const AWS = require('aws-sdk');
