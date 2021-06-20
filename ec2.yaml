@@ -10,6 +10,12 @@
       "ConstraintDescription" : "must be the name of an existing EC2 KeyPair."
     },
 
+    "BucketName": {
+      "Description" : "Name of the S3 Bucket",
+      "Type" : "String",
+      "Default": ""
+    },
+
     "InstanceType" : {
       "Description" : "WebServer EC2 instance type",
       "Type" : "String",
@@ -189,13 +195,30 @@
         "KeyName" : { "Ref" : "KeyName" },
         "ImageId" : { "Fn::FindInMap" : [ "AWSRegionArch2AMI", { "Ref" : "AWS::Region" },
                           { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "InstanceType" }, "Arch" ] } ] },
-        "UserData" : { "Fn::Base64" : "Fn::Join" : ["", [
-            "#!/bin/bash -xe\n",
-            "yum install -y docker\n",
-            "sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose\n",
-            "sudo chmod +x /usr/local/bin/docker-compose"
-        ]]}
+        "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
+             "#!/bin/bash -xe\n",
+             "yum install -y docker\n",
+
+             "# Install the files and packages from the metadata\n",
+             "/opt/aws/bin/cfn-init -v ",
+             "         --stack ", { "Ref" : "AWS::StackName" },
+             "         --resource WebServerInstance ",
+             "         --configsets Install ",
+             "         --region ", { "Ref" : "AWS::Region" }, "\n"
+		]]}}
       }
+    },
+    "S3Bucket" : {
+      "Type" : "AWS::S3::Bucket",
+      "Properties" : {
+        "AccessControl" : "PublicRead",
+        "BucketName" : { "Ref" : "BucketName"},
+        "WebsiteConfiguration" : {
+          "IndexDocument" : "index.html",
+          "ErrorDocument" : "error.html"
+         }
+      },
+      "DeletionPolicy" : "Retain"
     },
 
     "InstanceSecurityGroup" : {
