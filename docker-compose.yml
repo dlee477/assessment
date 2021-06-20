@@ -1,0 +1,7 @@
+version: "3.9"
+services:
+  assessment:
+    container_name: ITGlue_assessment
+    image: dlee477/assessment:latest
+    ports:
+      - "80:80"
