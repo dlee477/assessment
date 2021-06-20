@@ -191,7 +191,7 @@
       "Type" : "AWS::EC2::Instance",
       "Properties" : {
         "InstanceType" : { "Ref" : "InstanceType" },
-        "SecurityGroups" : [ { "Ref" : "InstanceSecurityGroup"} ],
+        "SecurityGroups" : [ { "Ref" : "InstanceSecurityGroup"}, { "Ref": "WorldAccess"} ],
         "KeyName" : { "Ref" : "KeyName" },
         "ImageId" : { "Fn::FindInMap" : [ "AWSRegionArch2AMI", { "Ref" : "AWS::Region" },
                           { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "InstanceType" }, "Arch" ] } ] },
@@ -227,7 +227,7 @@
         } ]
       }
     },
-    "InstanceSecurityGroup" : {
+    "WorldAccess" : {
       "Type" : "AWS::EC2::SecurityGroup",
       "Properties" : {
         "GroupDescription" : "Enable access for port 80",

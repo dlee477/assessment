@@ -36,20 +36,20 @@ app.post('/upload', upload.single('filename'), (req,res) => {
     Bucket: BUCKET_NAME,
     Key: req.file.originalname,
     Body: fileContent
-}
+  }
 
   s3.upload(params,function(err,data){
     if(err){
       console.log('fail2')
       throw err;
-  }
+    }
     console.log("success");
     res.json({
         message: "file uploaded to S3",
         'location': data.Location
     })
   })
-})
+});
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
