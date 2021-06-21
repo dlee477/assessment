@@ -6,6 +6,8 @@ upload a file template, and add ec2+s3.json. Fill out parameter fields.
 
 This will create a ec2 instance and a S3 bucket.
 
+-------------------------------------------------------------------------------
+
 2. Build Application
 
 To build application:
@@ -18,6 +20,8 @@ docker built -t dlee477/assessment .
 after image is built, push image to docker hub repository 
 
 docker push dlee477/assessment
+
+-------------------------------------------------------------------------------
 
 3. Deploy application
 SSH into ec2 instance and install docker-compose
@@ -32,6 +36,8 @@ Copy docker-compose over from local onto the server.
 Bring up docker container 
 
 docker-compose up -d
+
+-------------------------------------------------------------------------------
 
 4. Updates to code
 
