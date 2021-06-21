@@ -33,7 +33,7 @@ Bring up docker container
 
 docker-compose up -d
 
-4. Updates
+4. Updates to code
 
 To make to the code and deploy.
 
