@@ -5,3 +5,5 @@ services:
     image: dlee477/assessment:latest
     ports:
       - "80:80"
+    volumes:
+      - /root/.aws:/root/.aws
